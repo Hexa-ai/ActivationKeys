@@ -12,14 +12,14 @@
   <div class="col-span-2"></div>
   <div class="col-span-8">
     <div class="mb-3 ml-3 w-full text-gray-400">
-        <p>This utility hashes with HMAC SHA256 a MAC address using a salt key</p>
+        <p>This utility hashes with HMAC SHA256 a MAC address (or Serial number) using a salt key</p>
     </div>
     <div class="mb-3 ml-3 w-full">
         <label for="saltKey" class="font-bold text-gray-600 block tracking-wide text-sm mb-1">Salt key (Private)</label>
         <input type="text" id="saltKey" x-model="saltKey" name="saltKey" class="w-full border border-gray-300 rounded p-2 text-gray-600 focus:shadow-outline focus:outline-none" required>  
     </div>
     <div class="mb-3 ml-3">
-      <label for="macAddress" class="font-bold text-gray-600 block tracking-wide text-sm mb-1">Mac Address</label>
+      <label for="macAddress" class="font-bold text-gray-600 block tracking-wide text-sm mb-1">Mac Address or Serial Number</label>
       <input type="text" id="macAddress" x-model="macAddress" name="macAddress" class="w-full border border-gray-300 rounded p-2 text-gray-600 focus:shadow-outline focus:outline-none" required>  
     </div>
     <div class="mb-3 ml-3">
@@ -41,7 +41,7 @@
         hash: "",
         getHash() {
           // Utilise HMAC SHA256 en fournissant le MAC address en tant que message et le saltKey comme clé.
-          this.hash = CryptoJS.HmacSHA256(this.macAddress, this.saltKey).toString();
+          this.hash = CryptoJS.SHA256(this.macAddress, this.saltKey).toString();
         }
       };
   }
