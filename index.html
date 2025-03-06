@@ -2,39 +2,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.3.0/alpine.js" integrity="sha512-nIwdJlD5/vHj23CbO2iHCXtsqzdTTx3e3uAmpTm4x2Y8xCIFyWu4cSIV8GaGe2UNVq86/1h9EgUZy7tn243qdA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-
 <nav class="mb-5 flex shadow items-center justify-between flex-wrap bg-teal-500 p-6">
-    
-    <a href="https://hexa-ai.fr"><img class="flex fill-current h-12 mr-2" src="https://hexa-ai.github.io/ActivationKeys/Logo Ligne Hexa AI.jpg" alt="Hexa-AI"></a>
+    <a href="https://hexa-ai.fr">
+        <img class="flex fill-current h-12 mr-2" src="https://hexa-ai.github.io/ActivationKeys/Logo Ligne Hexa AI.jpg" alt="Hexa-AI">
+    </a>
 </nav>
 
 <div class="md:grid md:grid-cols-12 md:gap-6" x-data="app()">
-  <div class="col-span-2">
-  </div>
+  <div class="col-span-2"></div>
   <div class="col-span-8">
-    <div class="mb-3 ml-3 w-full text-gray-400 ">
-        <p >This utility hashes with SHA1 a MAC address + a salting key</p>
+    <div class="mb-3 ml-3 w-full text-gray-400">
+        <p>This utility hashes with HMAC SHA256 a MAC address using a salt key</p>
     </div>
     <div class="mb-3 ml-3 w-full">
-        <label for="name" class="font-bold text-gray-600 block tracking-wide text-sm mb-1">Salt key (Private)</label>
-        <input type="text" id="name" x-model="saltKey" name="name" class=" w-full border border-gray-300 rounded p-2 text-gray-600 focus:shadow-outline focus:outline-none" required>  
+        <label for="saltKey" class="font-bold text-gray-600 block tracking-wide text-sm mb-1">Salt key (Private)</label>
+        <input type="text" id="saltKey" x-model="saltKey" name="saltKey" class="w-full border border-gray-300 rounded p-2 text-gray-600 focus:shadow-outline focus:outline-none" required>  
     </div>
     <div class="mb-3 ml-3">
-      <label for="name" class="font-bold text-gray-600 block tracking-wide text-sm mb-1">Mac Address</label>
-      <input type="text" id="name" x-model="macAddress" name="name" class=" w-full border border-gray-300 rounded p-2 text-gray-600 focus:shadow-outline focus:outline-none" required>  
+      <label for="macAddress" class="font-bold text-gray-600 block tracking-wide text-sm mb-1">Mac Address</label>
+      <input type="text" id="macAddress" x-model="macAddress" name="macAddress" class="w-full border border-gray-300 rounded p-2 text-gray-600 focus:shadow-outline focus:outline-none" required>  
     </div>
     <div class="mb-3 ml-3">
-      <button type="submit"  @click="getHash()" class="bg-blue-700 text-white px-4 py-2 rounded">Generate</button>
+      <button type="submit" @click="getHash()" class="bg-blue-700 text-white px-4 py-2 rounded">Generate</button>
     </div>
-
     <div class="mb-3 ml-3">
-      <label for="name" class="font-bold text-gray-600 block tracking-wide text-sm mb-1"Generated Hash</label>
-      <input type="text"  id="name" x-model="hash" name="name" class=" w-full border border-gray-300 bg-gray-200 rounded p-2 text-gray-600 focus:shadow-outline focus:outline-none" required> 
+      <label for="hash" class="font-bold text-gray-600 block tracking-wide text-sm mb-1">Generated Hash</label>
+      <input type="text" id="hash" x-model="hash" name="hash" class="w-full border border-gray-300 bg-gray-200 rounded p-2 text-gray-600 focus:shadow-outline focus:outline-none" required> 
     </div>
   </div>
   <div class="col-span-2"></div>
 </div>
+
 <script>
   function app() {
       return {
@@ -42,7 +40,8 @@
         macAddress: "",
         hash: "",
         getHash() {
-          this.hash = CryptoJS.SHA1(this.macAddress +  this.saltKey);
+          // Utilise HMAC SHA256 en fournissant le MAC address en tant que message et le saltKey comme clé.
+          this.hash = CryptoJS.HmacSHA256(this.macAddress, this.saltKey).toString();
         }
       };
   }
