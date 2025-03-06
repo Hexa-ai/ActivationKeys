@@ -41,7 +41,7 @@
         hash: "",
         getHash() {
           // Utilise HMAC SHA256 en fournissant le MAC address en tant que message et le saltKey comme clé.
-          this.hash = CryptoJS.SHA256(this.macAddress, this.saltKey).toString();
+          this.hash = CryptoJS.SHA256(this.macAddress + this.saltKey).toString();
         }
       };
   }
